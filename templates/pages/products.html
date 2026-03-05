@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Productos{% endblock %}
+{% block content %}
+
+<div class="hero">
+    <div class="page-head">
+        <div>
+            <h1>Frutas y verduras</h1>
+            <p class="muted">Del campo a tu casa. Busca por nombre y filtra por tipo.</p>
+        </div>
+
+        <div class="toolbar">
+            <div class="filters">
+                <input id="searchInput" type="search" placeholder="Buscar… (ej: tomate, manzana)" />
+                <select id="typeSelect">
+                    <option value="">Todo</option>
+                    <option value="FRUTA">Frutas</option>
+                    <option value="VERDURA">Verduras</option>
+                </select>
+            </div>
+
+            <a class="btn btn--secondary" href="/cart/">🧺 Ver carrito</a>
+            <button id="clearFiltersBtn" class="btn btn--ghost" type="button">Limpiar</button>
+        </div>
+    </div>
+</div>
+
+
+<p id="productsMsg" aria-live="polite" class="muted"></p>
+<div id="productsGrid"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/products.js"></script>
+{% endblock %}

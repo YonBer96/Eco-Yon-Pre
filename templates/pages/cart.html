@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Carrito{% endblock %}
+{% block content %}
+
+<div class="page-head">
+    <div>
+        <h1 style="margin:0">🛒 Tu carrito</h1>
+        <p class="muted" style="margin:6px 0 0">Revisa tu pedido antes de pagar.</p>
+    </div>
+
+    <div class="toolbar" style="gap:10px">
+        <a class="btn btn--secondary" href="/products/">← Seguir comprando</a>
+        <a class="btn btn--primary" href="/checkout/">Continuar a checkout</a>
+    </div>
+</div>
+
+<div class="grid-2" style="margin-top:16px">
+    <!-- Items -->
+    <div>
+        <div id="cartItems"></div>
+        <p id="cartMsg" class="muted" style="margin-top:10px"></p>
+    </div>
+
+    <!-- Resumen -->
+    <aside>
+        <div class="card" style="position:sticky; top:16px">
+            <h3 style="margin:0 0 10px">Resumen</h3>
+
+            <div style="display:grid; gap:10px">
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                    <span class="muted">Total</span>
+                    <b id="cartTotal" style="font-size:18px"></b>
+                </div>
+
+                <div class="muted" style="font-size:13px; line-height:1.4">
+                    * El IVA se calculará en el checkout según los datos del pedido.
+                </div>
+
+                <a class="btn btn--primary" href="/checkout/" style="width:100%; text-align:center">
+                    ✅ Ir a pagar
+                </a>
+
+                <a class="btn btn--secondary" href="/products/" style="width:100%; text-align:center">
+                    + Añadir más productos
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/config.js"></script>
+<script src="/static/js/toast.js"></script>
+<script src="/static/js/cart.js"></script>
+{% endblock %}
+

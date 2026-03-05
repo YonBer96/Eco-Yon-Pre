@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login staff{% endblock %}
+
+{% block content %}
+<section class="auth">
+    <div class="auth__wrap">
+        <div class="auth__card">
+            <div class="auth__cardHeader">
+                <h2>Acceso staff</h2>
+                <p class="muted">Solo encargado / admin.</p>
+            </div>
+
+            <form method="post" class="auth__form">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+                <label class="auth__label">
+                    Usuario
+                    <input class="auth__input"
+                           name="username"
+                           placeholder="Usuario"
+                           autocomplete="username"
+                           required>
+                </label>
+
+                <label class="auth__label">
+                    Contraseña
+                    <input class="auth__input"
+                           name="password"
+                           type="password"
+                           placeholder="Contraseña"
+                           autocomplete="current-password"
+                           required>
+                </label>
+
+                <button class="btn btn--primary auth__btn" type="submit">
+                    Entrar
+                </button>
+
+                {% if form.errors %}
+                <p class="auth__msg">Usuario o contraseña incorrectos.</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

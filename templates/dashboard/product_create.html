@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Nuevo producto{% endblock %}
+{% block content %}
+
+<div class="hero">
+    <div class="page-head">
+        <div>
+            <h1>Nuevo producto</h1>
+            <p class="muted">Crea un producto para que aparezca en la tienda.</p>
+        </div>
+        <div class="toolbar">
+            <a class="btn btn--secondary" href="/dashboard/products/">← Volver</a>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="card card--form">
+        <form method="post" enctype="multipart/form-data" class="form-grid">
+            {% csrf_token %}
+
+            {# Mensajes Django #}
+            {% if messages %}
+            <div class="form-row form-row--full">
+                {% for m in messages %}
+                <div class="alert {% if m.tags %}alert--{{ m.tags }}{% endif %}">{{ m }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {# Errores generales del formulario #}
+            {% if form.non_field_errors %}
+            <div class="form-row form-row--full">
+                <div class="alert alert--error">
+                    {{ form.non_field_errors }}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Campo: Nombre #}
+            <div class="form-row">
+                <label class="form-label" for="{{ form.name.id_for_label }}">Nombre</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="form-error">{{ form.name.errors }}</div>{% endif %}
+            </div>
+
+            {# Campo: Categoría / Tipo #}
+            <div class="form-row">
+                <label class="form-label" for="{{ form.product_type.id_for_label }}">Categoría</label>
+                {{ form.product_type }}
+                {% if form.product_type.errors %}<div class="form-error">{{ form.product_type.errors }}</div>{% endif %}
+            </div>
+
+            {# Campo: Descripción (ocupa ancho completo) #}
+            <div class="form-row form-row--full">
+                <label class="form-label" for="{{ form.description.id_for_label }}">Descripción</label>
+                {{ form.description }}
+                {% if form.description.errors %}<div class="form-error">{{ form.description.errors }}</div>{% endif %}
+            </div>
+
+            {# Campo: Imagen (full) #}
+            <div class="form-row form-row--full">
+                <label class="form-label" for="{{ form.image.id_for_label }}">Imagen</label>
+                {{ form.image }}
+                {% if form.image.errors %}<div class="form-error">{{ form.image.errors }}</div>{% endif %}
+                <p class="form-help">Formatos recomendados: .jpg, .png, .webp</p>
+            </div>
+
+            {# Precio / Unidad / Stock (3 columnas) #}
+            <div class="form-row">
+                <label class="form-label" for="{{ form.price.id_for_label }}">Precio (€)</label>
+                {{ form.price }}
+                {% if form.price.errors %}<div class="form-error">{{ form.price.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-row">
+                <label class="form-label" for="{{ form.unit.id_for_label }}">Unidad</label>
+                {{ form.unit }}
+                {% if form.unit.errors %}<div class="form-error">{{ form.unit.errors }}</div>{% endif %}
+            </div>
+
+            <div class="form-row">
+                <label class="form-label" for="{{ form.stock.id_for_label }}">Stock</label>
+                {{ form.stock }}
+                {% if form.stock.errors %}<div class="form-error">{{ form.stock.errors }}</div>{% endif %}
+            </div>
+
+            {# Activo (full) #}
+            <div class="form-row form-row--full form-row--check">
+                <label class="check">
+                    {{ form.is_active }}
+                    <span>Activo <span class="muted">(visible en tienda)</span></span>
+                </label>
+                {% if form.is_active.errors %}<div class="form-error">{{ form.is_active.errors }}</div>{% endif %}
+            </div>
+
+            {# Botones (full) #}
+            <div class="form-actions">
+                <button class="btn btn--primary" type="submit">Guardar producto</button>
+                <a class="btn btn--ghost" href="/dashboard/products/">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Finalizar compra{% endblock %}
+{% block content %}
+<h1>Finalizar pedido</h1>
+
+<h3>Datos de facturación (si quieres factura)</h3>
+<input id="company_name" placeholder="Nombre empresa (opcional)">
+<input id="company_cif" placeholder="CIF/NIF (opcional)">
+<input id="company_address" placeholder="Dirección fiscal (opcional)">
+
+<h3>Método de pago</h3>
+<select id="payment_method">
+    <option value="card">Tarjeta</option>
+    <option value="invoice">Factura</option>
+</select>
+
+<h3>Entrega</h3>
+<select id="delivery_method">
+    <option value="PICKUP">Recogida en tienda</option>
+    <option value="DELIVERY">Envío a domicilio</option>
+</select>
+
+<select id="delivery_slot">
+    <option value="">Selecciona franja</option>
+    <option value="Hoy 19:00-21:00">Hoy 19:00–21:00</option>
+    <option value="Mañana 10:00-12:00">Mañana 10:00–12:00</option>
+    <option value="Mañana 12:00-14:00">Mañana 12:00–14:00</option>
+</select>
+
+<input id="delivery_address" placeholder="Dirección (solo si es envío)">
+
+
+<br>
+<br>
+<button id="confirmBtn">Confirmar pedido</button>
+<p id="checkoutMsg"></p>
+
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/checkout.js?v=3"></script>
+{% endblock %}

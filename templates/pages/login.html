@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<section class="auth">
+    <div class="auth__wrap">
+        <!-- LADO IZQUIERDO (branding) -->
+        <aside class="auth__brand">
+            <div class="auth__brandInner">
+                <img class="auth__logo" src="{% static 'img/logo-ecoyon.png' %}" alt="Eco-Yon">
+                <h1 class="auth__title">Bienvenido a Eco-Yon</h1>
+                <p class="auth__subtitle">Tu frutería online. Fresco, rápido y sostenible.</p>
+
+                <ul class="auth__bullets">
+                    <li>🍎 Productos frescos y de temporada</li>
+                    <li>🚚 Entrega o recogida</li>
+                    <li>🧾 Factura y albarán automático</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- LADO DERECHO (form) -->
+        <div class="auth__card">
+            <div class="auth__cardHeader">
+                <h2>Iniciar sesión</h2>
+                <p class="muted">Accede para ver productos, carrito y pedidos.</p>
+            </div>
+
+            <!-- LOGIN JWT (sin POST a Django) -->
+            <form id="loginForm" class="auth__form">
+                <!-- Para volver a /dashboard/ si venías de ahí (el JS puede usarlo) -->
+                <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+                <label class="auth__label">
+                    Usuario
+                    <input class="auth__input"
+                           name="username"
+                           placeholder="Tu usuario"
+                           autocomplete="username"
+                           required>
+                </label>
+
+                <label class="auth__label">
+                    Contraseña
+                    <input class="auth__input"
+                           name="password"
+                           type="password"
+                           placeholder="Tu contraseña"
+                           autocomplete="current-password"
+                           required>
+                </label>
+
+                <button class="btn btn--primary auth__btn" type="submit">
+                    Entrar
+                </button>
+
+                <!-- Mensajes (errores del login JWT) -->
+                <p id="loginMsg" class="auth__msg"></p>
+
+                <div class="auth__hint">
+                    <span class="muted">¿No tienes cuenta?</span>
+                    <a class="auth__link" href="/register/">Crear cuenta</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/auth_login.js' %}"></script>
+{% endblock %}

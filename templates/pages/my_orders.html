@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Mis pedidos{% endblock %}
+
+{% block content %}
+<h1>Mis pedidos</h1>
+
+<!-- BLOQUE SOLO PARA STAFF -->
+<div id="bulkAlbaranBlock" style="display:none;">
+    <h2>Albarán conjunto</h2>
+
+    <label>Desde: <input type="date" id="startDate"></label>
+    <label>Hasta: <input type="date" id="endDate"></label>
+
+    <button type="button" id="btnHtml">Generar (HTML)</button>
+    <button type="button" id="btnPdf">Descargar (PDF)</button>
+</div>
+
+<div id="ordersList"></div>
+<p id="ordersMsg"></p>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/my_orders.js?v=2"></script>
+
+<script>
+    async function showBulkAlbaranIfStaff() {
+        const block = document.getElementById("bulkAlbaranBlock");
+        if (!block) return;
+
+        try {
+            const token = localStorage.getItem("access_token");
+            const res = await fetch("/api/me/", {
+                headers: token ? { "Authorization": `Bearer ${token}` } : {}
+            });
+
+            if (!res.ok) return;
+
+            const me = await res.json();
+            if (me.is_staff) {
+                block.style.display = "block";
+            }
+        } catch (err) {
+            console.error("Error comprobando usuario:", err);
+        }
+    }
+
+    function urlWithDates(base) {
+        const start = document.getElementById("startDate").value;
+        const end = document.getElementById("endDate").value;
+        const params = new URLSearchParams();
+        if (start) params.set("start", start);
+        if (end) params.set("end", end);
+        const qs = params.toString();
+        return qs ? (base + "?" + qs) : base;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        showBulkAlbaranIfStaff();
+
+        const btnHtml = document.getElementById("btnHtml");
+        const btnPdf = document.getElementById("btnPdf");
+
+        if (btnHtml) {
+            btnHtml.addEventListener("click", () => {
+                window.open(urlWithDates("/api/manager/albaran/summary/"), "_blank");
+            });
+        }
+
+        if (btnPdf) {
+            btnPdf.addEventListener("click", () => {
+                window.open(urlWithDates("/api/manager/albaran/summary/pdf/"), "_blank");
+            });
+        }
+    });
+</script>
+{% endblock %}

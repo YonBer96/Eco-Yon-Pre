@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+
+    <title>{% block title %}Frutería{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header class="nav">
+        <div class="nav-left">
+            <a href="/products/">
+                <span class="brand-badge">🍋</span>
+                Eco-Yon
+            </a>
+        </div>
+        <div class="nav-right" id="nav-auth">
+            <a href="/login/">Login</a>
+            <a href="/register/">Registro</a>
+
+
+        </div>
+        <div class="nav-right hidden" id="nav-user">
+            <a href="/products/">Productos</a>
+            <a class="pill" href="/cart/">Carrito</a>
+            <a href="/my-orders/">Mis pedidos</a>
+            <a href="/dashboard/" id="nav-dashboard" class="hidden">Panel de Control</a>
+            <form method="post" action="/staff/logout/" style="display:inline;">
+                {% csrf_token %}
+                <button id="logoutBtn" type="submit">Salir</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="/static/js/config.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/toast.js"></script>
+    <script src="/static/js/header.js"></script>
+
+
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Factura #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #111;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 10px 0;
+        }
+
+        .muted {
+            color: #555;
+        }
+
+        .box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .total {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Factura</h1>
+
+    <p>
+        <b>Pedido:</b> #{{ order.id }}<br />
+        <b>Cliente:</b> {{ order.user.username }}<br />
+        <span class="muted">
+            Fecha: {{ order.created_at|date:"d/m/Y H:i" }}
+        </span>
+    </p>
+
+    {% if order.company_name %}
+    <div class="box">
+        <b>Datos de facturación</b><br />
+        Empresa: {{ order.company_name }}<br />
+        CIF: {{ order.company_cif }}<br />
+        Dirección: {{ order.company_address }}
+    </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th class="right">Precio</th>
+                <th class="right">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }} {{ item.product.unit }}</td>
+                <td class="right">{{ item.product.price|floatformat:2 }} €</td>
+                <td class="right">{{ item.subtotal|floatformat:2 }} €</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total">
+        <p class="right">Subtotal: <b>{{ order.subtotal_amount|floatformat:2 }} €</b></p>
+        <p class="right">IVA: <b>{{ order.vat_amount|floatformat:2 }} €</b></p>
+        <p class="right" style="font-size:14px;">TOTAL: <b>{{ order.total_amount|floatformat:2 }} €</b></p>
+    </div>
+
+    <p class="muted">
+        Método de pago: {{ order.payment_method }}
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Albarán conjunto</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .meta {
+            margin-bottom: 15px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background: #f3f3f3;
+        }
+
+        td.num {
+            text-align: right;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Albarán conjunto</h1>
+
+    <div class="meta">
+        Rango: <strong>{{ start }}</strong> → <strong>{{ end }}</strong>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Total</th>
+                <th>Unidad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for row in items %}
+            <tr>
+                <td>{{ row.product__name }}</td>
+                <td class="num">{{ row.total_qty }}</td>
+                <td>{{ row.product__unit }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No hay pedidos en ese rango.</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Generado: {{ generated_at }}
+    </div>
+
+</body>
+</html>

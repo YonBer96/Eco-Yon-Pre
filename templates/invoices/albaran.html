@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Albarán #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            color: #111;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .box {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 22px;
+        }
+
+        .muted {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: .04em;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="row">
+        <div>
+            <h1>Albarán #{{ order.id }}</h1>
+            <div class="muted">Fecha: {{ order.created_at|date:"d/m/Y H:i" }}</div>
+            <div class="muted">Cliente: <b>{{ order.user.username }}</b></div>
+        </div>
+
+        <div class="box" style="min-width:280px">
+            <div class="muted">Entrega</div>
+            <div style="margin-top:6px">
+                <b>{{ order.get_delivery_method_display }}</b>
+                {% if order.delivery_slot %}
+                <div class="muted">Franja: {{ order.delivery_slot }}</div>
+                {% endif %}
+                {% if order.delivery_address %}
+                <div class="muted">Dirección: {{ order.delivery_address }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th class="right">Cantidad</th>
+                <th class="right">Precio</th>
+                <th class="right">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for it in order.items.all %}
+            <tr>
+                <td><b>{{ it.product.name }}</b> <span class="muted">({{ it.product.unit }})</span></td>
+                <td class="right">{{ it.quantity }}</td>
+                <td class="right">{{ it.product.price }} €</td>
+                <td class="right">{{ it.subtotal }} €</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row" style="margin-top:14px">
+        <div class="muted">
+            Este documento es un albarán (preparación de pedido).
+        </div>
+        <div class="right">
+            <div class="muted">Subtotal: {{ order.subtotal_amount }} €</div>
+            <div class="muted">IVA: {{ order.vat_amount }} €</div>
+            <div class="total">TOTAL: {{ order.total_amount }} €</div>
+        </div>
+    </div>
+
+</body>
+</html>

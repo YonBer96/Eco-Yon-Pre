@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Productos{% endblock %}
+{% block content %}
+
+<div class="hero">
+    <div class="page-head">
+        <div>
+            <h1>Catálogo</h1>
+            <p class="muted">Gestiona productos (crear, filtrar y revisar stock).</p>
+        </div>
+
+        <div class="toolbar">
+            <div class="filters">
+                <form method="get" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                    <input type="search" name="q" placeholder="Buscar producto…" value="{{ q }}">
+                    <select name="product_type">
+                        <option value="">Todo</option>
+                        <option value="FRUTA" {% if ptype == "FRUTA" %}selected{% endif %}>Frutas</option>
+                        <option value="VERDURA" {% if ptype == "VERDURA" %}selected{% endif %}>Verduras</option>
+                    </select>
+                    <button class="btn btn--secondary" type="submit">Filtrar</button>
+                    <a class="btn btn--ghost" href="/dashboard/products/">Limpiar</a>
+                </form>
+            </div>
+
+            <a class="btn btn--primary" href="/dashboard/products/new/">➕ Nuevo producto</a>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Activo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in products %}
+            <tr>
+                <td style="width:80px">
+                    {% if p.image %}
+                    <img src="{{ p.image.url }}" alt="{{ p.name }}" style="width:64px; height:48px; object-fit:cover; border-radius:12px; border:1px solid rgba(0,0,0,.08)">
+                    {% else %}
+                    <span class="badge">Sin imagen</span>
+                    {% endif %}
+                </td>
+                <td><b>{{ p.name }}</b><br><span class="muted" style="font-size:12px">{{ p.unit }}</span></td>
+                <td>{{ p.get_product_type_display }}</td>
+                <td><b>{{ p.price }}€</b></td>
+                <td>{{ p.stock }}</td>
+                <td>{% if p.is_active %}✅{% else %}⛔{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

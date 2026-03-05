@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<h1>Registro</h1>
+<form id="registerForm" class="card">
+    <input name="username" placeholder="Usuario" required>
+    <input name="email" type="email" placeholder="Email (opcional)">
+    <input name="password" type="password" placeholder="Contraseña" required>
+    <button type="submit">Crear cuenta</button>
+    <p id="registerMsg"></p>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth_register.js"></script>
+{% endblock %}

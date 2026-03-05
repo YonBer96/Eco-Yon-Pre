@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Panel de control{% endblock %}
+
+{% block content %}
+<h1>Panel de control</h1>
+
+<div class="card" style="margin-bottom:16px">
+    <h2 style="margin-top:0">Pedidos (todos los usuarios)</h2>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:end">
+        <label>
+            Desde:
+            <input type="date" id="startDate">
+        </label>
+
+        <label>
+            Hasta:
+            <input type="date" id="endDate">
+        </label>
+
+        <button class="btn btn--primary" type="button" id="btnLoadOrders">
+            Filtrar pedidos
+        </button>
+
+        <button class="btn btn--secondary" type="button" id="btnWeek">
+            Semana actual
+        </button>
+    </div>
+
+    <hr style="margin:14px 0">
+
+    <h3 style="margin:0 0 10px 0">Albarán conjunto (rango seleccionado)</h3>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn btn--secondary" type="button" id="btnAlbaranHtml">Generar (JSON)</button>
+        <button class="btn btn--secondary" type="button" id="btnAlbaranPdf">Descargar (PDF)</button>
+    </div>
+
+    <p class="muted" id="dashMsg" style="margin:10px 0 0 0"></p>
+</div>
+
+<div id="ordersBox"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
+<script src="{% static 'js/dashboard_home.js' %}"></script>
+{% endblock %}
